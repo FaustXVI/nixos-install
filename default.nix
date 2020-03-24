@@ -3,12 +3,12 @@
 let
   inherit (nixpkgs) callPackage pkgs stdenv;
   install-script = callPackage ./scripts {  };
- tar = builtins.fetchTarball {
+  tar = builtins.fetchTarball {
                url = https://github.com/FaustXVI/nixos-yubikey-luks/archive/master.tar.gz;
                # Hash obtained using `nix-prefetch-url --unpack <url>`
-               sha256 = "0d8gpvljfica6nb4i2ksr57c8swvkk5s38lrliglrhz20as4xfsq";
+               sha256 = "13lvwv8azbvak8ag256yf5rjamfq0rkh5f48mjcln7s99fsnlzja";
              };
- my = import tar { };
+  my = import tar { };
 in
   stdenv.mkDerivation {
     name = "nixos-setup";
