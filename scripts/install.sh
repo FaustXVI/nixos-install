@@ -14,6 +14,7 @@ set -e
 ROOT_DEVICE="/dev/nvme1n1p1"
 SWAP_DEVICE="/dev/nvme1n1p2"
 BOOT_DEVICE="/dev/nvme1n1p3"
+CONFIG="desktop-home.nix"
 
 ROOT_NAME="nixos"
 SWAP_NAME="swap"
@@ -42,7 +43,7 @@ git clone https://github.com/FaustXVI/nixos-configuration /mnt/etc/nixos
 
 cd /mnt/etc/nixos
 git checkout testing
-ln -s machines/desktop-home.nix configuration.nix
+ln -s machines/$CONFIG configuration.nix
 
 nixos-generate-config --root /mnt
 
