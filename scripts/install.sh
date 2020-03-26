@@ -27,7 +27,7 @@ SWAP=$BY_LABEL$SWAP_NAME
 BOOT=$BY_LABEL$BOOT_NAME
 
 mkswap -L $SWAP_NAME $SWAP_DEVICE
-mkfs.fat -F 32 -n $BOOT_NAME $BOOT_DEVICE
+mkfs.vfat -n $BOOT_NAME $BOOT_DEVICE
 
 mount $BOOT /mnt
 
@@ -49,4 +49,4 @@ nixos-generate-config --root /mnt
 
 nixos-install
 
-#./post-install.sh
+./post-install.sh

@@ -8,7 +8,7 @@ let
                # Hash obtained using `nix-prefetch-url --unpack <url>`
                sha256 = "13lvwv8azbvak8ag256yf5rjamfq0rkh5f48mjcln7s99fsnlzja";
              };
-  my = import tar { };
+  my = import tar { inherit nixpkgs; };
 in
   stdenv.mkDerivation {
     name = "nixos-setup";
