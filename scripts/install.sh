@@ -42,7 +42,6 @@ mkdir /mnt/etc
 git clone https://github.com/FaustXVI/nixos-configuration /mnt/etc/nixos
 
 cd /mnt/etc/nixos
-git checkout testing
 ln -s machines/$CONFIG configuration.nix
 
 nixos-generate-config --root /mnt
