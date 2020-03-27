@@ -2,19 +2,18 @@
 
 set -e
 
-#if [ $# -ne 3 ]
-#then
-#    cat << EOF
-#Usage : 
-#$0 /partition/to/encrypt partition-name /path/to/boot
-#EOF
-#exit
-#fi
+if [ $# -ne 3 ]
+then
+    cat << EOF
+Usage : 
+$0 /boot/partition /root/partition /swap/partition
+EOF
+exit
+fi
 
-ROOT_DEVICE="/dev/nvme1n1p1"
-SWAP_DEVICE="/dev/nvme1n1p2"
-BOOT_DEVICE="/dev/nvme1n1p3"
-CONFIG="desktop-home.nix"
+BOOT_DEVICE="$1"
+ROOT_DEVICE="$2"
+SWAP_DEVICE="$3"
 
 ROOT_NAME="nixos"
 SWAP_NAME="swap"
@@ -42,7 +41,17 @@ mkdir /mnt/etc
 git clone https://github.com/FaustXVI/nixos-configuration /mnt/etc/nixos
 
 cd /mnt/etc/nixos
-ln -s machines/$CONFIG configuration.nix
+select CONFIG in $(ls machines) "New machine"; do
+    case $CONFIG in
+        "New machine")
+            echo "Not linking to an existing configuration"
+            ;;
+        *)
+            ln -s machines/$CONFIG configuration.nix
+            ;;
+    esac
+    break
+done
 
 nixos-generate-config --root /mnt
 
