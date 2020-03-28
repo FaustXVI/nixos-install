@@ -84,6 +84,7 @@ nixos-enter --root $INSTALL_ROOT -c 'mv /etc/nixos /home/xadet/nixos-configurati
 nixos-enter --root $INSTALL_ROOT -c 'ln -s /home/xadet/nixos-configuration /etc/nixos'
 chown --reference=/mnt/home/xadet -R /mnt/home/xadet
 
+mount -B /tmp $INSTALL_ROOT/tmp
 cp /etc/resolv.conf $INSTALL_ROOT/etc/resolv.conf
 nixos-enter --root $INSTALL_ROOT -c 'su xadet -l -c "curl -L https://get.oh-my.fish | fish"'
 nixos-enter --root $INSTALL_ROOT -c 'su xadet -l -c "home-manager switch"'
