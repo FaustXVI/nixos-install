@@ -84,10 +84,14 @@ nixos-enter --root $INSTALL_ROOT -c 'mv /etc/nixos /home/xadet/nixos-configurati
 nixos-enter --root $INSTALL_ROOT -c 'ln -s /home/xadet/nixos-configuration /etc/nixos'
 chown --reference=/mnt/home/xadet -R /mnt/home/xadet
 
+mkdir $INSTALL_ROOT/tmp
 mount -B /tmp $INSTALL_ROOT/tmp
 cp /etc/resolv.conf $INSTALL_ROOT/etc/resolv.conf
-nixos-enter --root $INSTALL_ROOT -c 'su xadet -l -c "curl -L https://get.oh-my.fish | fish"'
-nixos-enter --root $INSTALL_ROOT -c 'su xadet -l -c "home-manager switch"'
+curl -L https://get.oh-my.fish > $INSTALL_ROOT/tmp/install-omf
+nixos-enter --root $INSTALL_ROOT -c 'su xadet -l -c "fish /tmp/install-omf --noninteractive"'
+# TODO find out why we don't have permission at installation time
+# nixos-enter --root $INSTALL_ROOT -c 'su xadet -l -c "home-manager switch"'
+umount $INSTALL_ROOT/tmp
 rm $INSTALL_ROOT/etc/resolv.conf
 
 echo "Everything is ok, you can reboot"
