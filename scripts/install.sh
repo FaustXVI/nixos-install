@@ -25,22 +25,31 @@ ROOT=$BY_LABEL$ROOT_NAME
 SWAP=$BY_LABEL$SWAP_NAME
 BOOT=$BY_LABEL$BOOT_NAME
 
+INSTALL_ROOT="/mnt"
+INSTALL_BOOT="$INSTALL_ROOT/boot"
+CONFIG_PATH="$INSTALL_ROOT/home/xadet/.config"
+GITHUB_HTTP="http://github.com/FaustXVI"
+GITHUB_SSH="git@github.com:FaustXVI"
+
 mkswap -L $SWAP_NAME $SWAP_DEVICE
 mkfs.vfat -n $BOOT_NAME $BOOT_DEVICE
 
-mount $BOOT /mnt
+mount $BOOT $INSTALL_ROOT
 
-encrypt.sh $ROOT_DEVICE $ROOT_NAME /mnt
+encrypt.sh $ROOT_DEVICE $ROOT_NAME $INSTALL_ROOT
 
-umount /mnt
-mount $ROOT /mnt
-mkdir /mnt/boot
-mount $BOOT /mnt/boot
+umount $INSTALL_ROOT
+mount $ROOT $INSTALL_ROOT
+mkdir $INSTALL_BOOT
+mount $BOOT $INSTALL_BOOT
 swapon $SWAP
-mkdir /mnt/etc
-git clone https://github.com/FaustXVI/nixos-configuration /mnt/etc/nixos
+mkdir $INSTALL_ROOT/etc
+git clone $GITHUB_HTTP/nixos-configuration $INSTALL_ROOT/etc/nixos
+cd $INSTALL_ROOT/etc/nixos
+git remote set-url origin $GITHUB_SSH/nixos-configuration.git
+cd -
 
-cd /mnt/etc/nixos
+cd $INSTALL_ROOT/etc/nixos
 select CONFIG in $(ls machines) "New machine"; do
     case $CONFIG in
         "New machine")
@@ -53,14 +62,9 @@ select CONFIG in $(ls machines) "New machine"; do
     break
 done
 
-nixos-generate-config --root /mnt
+nixos-generate-config --root $INSTALL_ROOT
 
 nixos-install
-
-INSTALL_ROOT="/mnt"
-CONFIG_PATH="$INSTALL_ROOT/home/xadet/.config"
-GITHUB_HTTP="http://github.com/FaustXVI"
-GITHUB_SSH="git@github.com:FaustXVI"
 
 clone() {
     git clone $GITHUB_HTTP/$1 $CONFIG_PATH/$2
@@ -69,9 +73,6 @@ clone() {
     cd -
 }
 
-cd /etc/nixos
-git remote set-url origin $GITHUB_SSH/nixos-configuration.git
-cd -
 
 mkdir -p $CONFIG_PATH
 clone nixos-xadet-configuration nixpkgs
