@@ -64,6 +64,9 @@ done
 
 nixos-generate-config --root $INSTALL_ROOT
 
+nix-channel --add https://github.com/rycee/home-manager/archive/release-19.09.tar.gz home-manager
+nix-channel --update
+
 nixos-install
 
 clone() {
@@ -81,9 +84,9 @@ nixos-enter --root $INSTALL_ROOT -c 'mv /etc/nixos /home/xadet/nixos-configurati
 nixos-enter --root $INSTALL_ROOT -c 'ln -s /home/xadet/nixos-configuration /etc/nixos'
 chown --reference=/mnt/home/xadet -R /mnt/home/xadet
 
-mount -o bind,ro /etc/resolv.conf $INSTALL_ROOT/etc/resolv.conf
+cp /etc/resolv.conf $INSTALL_ROOT/etc/resolv.conf
 nixos-enter --root $INSTALL_ROOT -c 'su xadet -l -c "curl -L https://get.oh-my.fish | fish"'
-nixos-enter --root $INSTALL_ROOT -c 'su xadet -l -c "nix-channel --add https://github.com/rycee/home-manager/archive/release-19.09.tar.gz home-manager"'
-nixos-enter --root $INSTALL_ROOT -c 'su xadet -l -c "nix-shell https://github.com/rycee/home-manager/archive/release-19.09.tar.gz home-manager -A install"'
 nixos-enter --root $INSTALL_ROOT -c 'su xadet -l -c "home-manager switch"'
+rm $INSTALL_ROOT/etc/resolv.conf
 
+echo "Everything is ok, you can reboot"
