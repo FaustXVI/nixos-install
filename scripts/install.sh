@@ -65,6 +65,7 @@ done
 nixos-generate-config --root $INSTALL_ROOT
 
 nix-channel --add https://github.com/rycee/home-manager/archive/release-19.09.tar.gz home-manager
+nix-channel --add https://nixos.org/channels/nixos-unstable nixos-unstable
 nix-channel --update
 
 nixos-install
