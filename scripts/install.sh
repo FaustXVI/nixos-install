@@ -11,6 +11,10 @@ EOF
 exit
 fi
 
+export NIXPKGS_ALLOW_UNFREE=1
+
+NIXOS_VERSION="20.03"
+
 BOOT_DEVICE="$1"
 ROOT_DEVICE="$2"
 SWAP_DEVICE="$3"
@@ -39,6 +43,8 @@ mount $BOOT $INSTALL_ROOT
 encrypt.sh $ROOT_DEVICE $ROOT_NAME $INSTALL_ROOT
 
 umount $INSTALL_ROOT
+echo "waiting a bit to be sure we can mount"
+sleep 5
 mount $ROOT $INSTALL_ROOT
 mkdir $INSTALL_BOOT
 mount $BOOT $INSTALL_BOOT
@@ -64,7 +70,7 @@ done
 
 nixos-generate-config --root $INSTALL_ROOT
 
-nix-channel --add https://github.com/rycee/home-manager/archive/release-19.09.tar.gz home-manager
+nix-channel --add https://github.com/rycee/home-manager/archive/release-${NIXOS_VERSION}.tar.gz home-manager
 nix-channel --add https://nixos.org/channels/nixos-unstable nixos-unstable
 nix-channel --update
 
@@ -90,8 +96,6 @@ mount -B /tmp $INSTALL_ROOT/tmp
 cp /etc/resolv.conf $INSTALL_ROOT/etc/resolv.conf
 curl -L https://get.oh-my.fish > $INSTALL_ROOT/tmp/install-omf
 nixos-enter --root $INSTALL_ROOT -c 'su xadet -l -c "fish /tmp/install-omf --noninteractive"'
-# TODO find out why we don't have permission at installation time
-# nixos-enter --root $INSTALL_ROOT -c 'su xadet -l -c "home-manager switch"'
 umount $INSTALL_ROOT/tmp
 rm $INSTALL_ROOT/etc/resolv.conf
 
