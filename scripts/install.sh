@@ -75,7 +75,8 @@ nix-channel --add https://github.com/nix-community/home-manager/archive/release-
 nix-channel --add https://nixos.org/channels/nixos-unstable nixos-unstable
 nix-channel --update
 
-nix-build '<nixpkgs/nixos>' -A config.system.build.toplevel -I nixos-config=/mnt/etc/nixos/configuration.nix
+# add if installation is still bugged
+# nix-build '<nixpkgs/nixos>' -A config.system.build.toplevel -I nixos-config=/mnt/etc/nixos/configuration.nix
 
 nixos-install
 
@@ -88,7 +89,6 @@ clone() {
 
 
 mkdir -p $CONFIG_PATH
-clone nixos-xadet-configuration nixpkgs
 clone omf-config omf
 nixos-enter --root $INSTALL_ROOT -c 'mv /etc/nixos /home/xadet/nixos-configuration'
 nixos-enter --root $INSTALL_ROOT -c 'ln -s /home/xadet/nixos-configuration /etc/nixos'
