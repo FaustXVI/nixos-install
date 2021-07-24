@@ -6,7 +6,7 @@ let
   tar = builtins.fetchTarball {
                url = https://github.com/FaustXVI/nixos-yubikey-luks/archive/master.tar.gz;
                # Hash obtained using `nix-prefetch-url --unpack <url>`
-               sha256 = "0gi8b13b92vgjx6h8zmkw0s2a49nfaj6a1ql2x3h658ibb7sq8n5";
+               sha256 = "190xx0kzmv75kcxpn60n3xv6qhvzspmdm72v8qp83cs6rjj6qgl2";
              };
   my = import tar { inherit nixpkgs; };
 in
