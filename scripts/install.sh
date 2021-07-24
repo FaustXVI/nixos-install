@@ -94,7 +94,7 @@ nixos-enter --root $INSTALL_ROOT -c 'mv /etc/nixos /home/xadet/nixos-configurati
 nixos-enter --root $INSTALL_ROOT -c 'ln -s /home/xadet/nixos-configuration /etc/nixos'
 chown --reference=/mnt/home/xadet -R /mnt/home/xadet
 
-mkdir $INSTALL_ROOT/tmp
+mkdir -p $INSTALL_ROOT/tmp
 mount -B /tmp $INSTALL_ROOT/tmp
 cp /etc/resolv.conf $INSTALL_ROOT/etc/resolv.conf
 curl -L https://get.oh-my.fish > $INSTALL_ROOT/tmp/install-omf
