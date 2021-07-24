@@ -13,7 +13,7 @@ fi
 
 export NIXPKGS_ALLOW_UNFREE=1
 
-NIXOS_VERSION="20.03"
+NIXOS_VERSION="21.05"
 
 BOOT_DEVICE="$1"
 ROOT_DEVICE="$2"
@@ -70,7 +70,8 @@ done
 
 nixos-generate-config --root $INSTALL_ROOT
 
-nix-channel --add https://github.com/rycee/home-manager/archive/release-${NIXOS_VERSION}.tar.gz home-manager
+nix-channel --add https://nixos.org/channels/nixos-${NIXOS_VERSION} nixos
+nix-channel --add https://github.com/nix-community/home-manager/archive/release-${NIXOS_VERSION}.tar.gz home-manager
 nix-channel --add https://nixos.org/channels/nixos-unstable nixos-unstable
 nix-channel --update
 
