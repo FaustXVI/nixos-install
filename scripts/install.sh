@@ -13,7 +13,7 @@ fi
 
 export NIXPKGS_ALLOW_UNFREE=1
 
-NIXOS_VERSION="21.05"
+NIXOS_VERSION="22.05"
 
 BOOT_DEVICE="$1"
 ROOT_DEVICE="$2"
@@ -88,18 +88,18 @@ clone() {
 }
 
 
-mkdir -p $CONFIG_PATH
-clone omf-config omf
+cp /etc/resolv.conf $INSTALL_ROOT/etc/resolv.conf
+
 nixos-enter --root $INSTALL_ROOT -c 'mv /etc/nixos /home/xadet/nixos-configuration'
 nixos-enter --root $INSTALL_ROOT -c 'ln -s /home/xadet/nixos-configuration /etc/nixos'
 chown --reference=/mnt/home/xadet -R /mnt/home/xadet
 
-mkdir -p $INSTALL_ROOT/tmp
-mount -B /tmp $INSTALL_ROOT/tmp
-cp /etc/resolv.conf $INSTALL_ROOT/etc/resolv.conf
-curl -L https://get.oh-my.fish > $INSTALL_ROOT/tmp/install-omf
-nixos-enter --root $INSTALL_ROOT -c 'su xadet -l -c "fish /tmp/install-omf --noninteractive"'
-umount $INSTALL_ROOT/tmp
+mkdir -p $CONFIG_PATH
+nixos-enter --root $INSTALL_ROOT -c 'su xadet -l -c "omf-install"'
+clone omf-config omf
+chown --reference=/mnt/home/xadet -R /mnt/home/xadet
+nixos-enter --root $INSTALL_ROOT -c 'su xadet -l -c "omf i"'
+
 rm $INSTALL_ROOT/etc/resolv.conf
 
 echo "Everything is ok, you can reboot"
