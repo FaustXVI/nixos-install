@@ -7,6 +7,10 @@ then
     cat << EOF
 Usage : 
 $0 /boot/partition /root/partition /swap/partition
+
+Boot partition must be of type EFI
+Swap partition must be of type swap
+Root partition must be of type linux
 EOF
 exit
 fi
@@ -59,7 +63,9 @@ cd $INSTALL_ROOT/etc/nixos
 select CONFIG in $(ls machines) "New machine"; do
     case $CONFIG in
         "New machine")
-            echo "Not linking to an existing configuration"
+            read name
+            cp machines/new.nix.sample "machines/$name.nix"
+            ln -s "machines/$name.nix" configuration.nix
             ;;
         *)
             ln -s machines/$CONFIG configuration.nix
