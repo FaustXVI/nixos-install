@@ -102,10 +102,10 @@ nixos-enter --root $INSTALL_ROOT -c 'ln -s /home/xadet/nixos-configuration /etc/
 chown --reference=/mnt/home/xadet -R /mnt/home/xadet
 
 mkdir -p $CONFIG_PATH
-nixos-enter --root $INSTALL_ROOT -c 'su xadet -l -c "omf-install"'
 clone omf-config omf
 chown --reference=/mnt/home/xadet -R /mnt/home/xadet
-nixos-enter --root $INSTALL_ROOT -c 'su xadet -l -c "omf i"'
+#nixos-enter --root $INSTALL_ROOT -c 'su xadet -l -c "omf-install"'
+#nixos-enter --root $INSTALL_ROOT -c 'su xadet -l -c "omf i"'
 
 rm $INSTALL_ROOT/etc/resolv.conf
 
