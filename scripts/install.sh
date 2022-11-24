@@ -63,6 +63,7 @@ cd $INSTALL_ROOT/etc/nixos
 select CONFIG in $(ls machines) "New machine"; do
     case $CONFIG in
         "New machine")
+            echo "Machine name ?"
             read name
             cp machines/new.nix.sample "machines/$name.nix"
             ln -s "machines/$name.nix" configuration.nix
