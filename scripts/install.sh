@@ -42,6 +42,9 @@ GITHUB_SSH="git@github.com:FaustXVI"
 mkswap -L $SWAP_NAME $SWAP_DEVICE
 mkfs.vfat -n $BOOT_NAME $BOOT_DEVICE
 
+echo "waiting a bit to be sure we can mount"
+sleep 2
+
 mount $BOOT $INSTALL_ROOT
 
 encrypt.sh $ROOT_DEVICE $ROOT_NAME $INSTALL_ROOT
