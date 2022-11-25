@@ -100,12 +100,12 @@ clone() {
 
 cp /etc/resolv.conf $INSTALL_ROOT/etc/resolv.conf
 
-nixos-enter --root $INSTALL_ROOT -c 'mv /etc/nixos /home/xadet/nixos-configuration'
-nixos-enter --root $INSTALL_ROOT -c 'ln -s /home/xadet/nixos-configuration /etc/nixos'
-chown --reference=/mnt/home/xadet -R /mnt/home/xadet
-
 mkdir -p $CONFIG_PATH
 clone omf-config omf
+
+nixos-enter --root $INSTALL_ROOT -c 'mv /etc/nixos /home/xadet/nixos-configuration'
+nixos-enter --root $INSTALL_ROOT -c 'ln -s /home/xadet/nixos-configuration /etc/nixos'
+
 chown --reference=/mnt/home/xadet -R /mnt/home/xadet
 #nixos-enter --root $INSTALL_ROOT -c 'su xadet -l -c "omf-install"'
 #nixos-enter --root $INSTALL_ROOT -c 'su xadet -l -c "omf i"'
